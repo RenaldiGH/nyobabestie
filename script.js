@@ -246,7 +246,7 @@ function loadSpacemanGame() {
         </div>
         <div class="spaceman-game">
             <div class="multiplier" id="multiplier">1.00x</div>
-            <div class="rocket" id="rocket"><img src="rocketBoszz.jpg"></div>
+            <div class="rocket" id="rocket"><img src="rocket.jpg" alt="Rocket"></div>
             <button id="startButton">Start!</button>
             <button id="cashoutButton" class="cashout" disabled>Cash Out</button>
         </div>
@@ -254,7 +254,7 @@ function loadSpacemanGame() {
             <p id="message"></p>
         </div>
         <div class="probabilities">
-            <h3>Probabilitas Crash: Acak (1.01x - 100x+)</h3>
+            <h3>Probabilitas Crash: Acak (1.01x - 10x)</h3>
             <p>Cash out sebelum crash untuk dapat reward!</p>
         </div>
     `;
@@ -273,7 +273,6 @@ let betAmount;
 
 // Fungsi start spaceman
 function startSpaceman() {
-    
     const betInput = document.getElementById('betAmount');
     betAmount = parseInt(betInput.value);
     
@@ -294,7 +293,7 @@ function startSpaceman() {
     document.getElementById('cashoutButton').disabled = false;
     
     currentMultiplier = 1.00;
-    crashMultiplier = Math.random() * 99 + 1.01; // Crash antara 1.01x sampai 100x+
+    crashMultiplier = Math.random() * 9 + 1.01; // Crash antara 1.01x sampai 10x (lebih cepat)
     
     // Animasi roket terbang dari kiri ke tengah
     const rocket = document.getElementById('rocket');
@@ -302,42 +301,37 @@ function startSpaceman() {
     
     setTimeout(() => {
         // Mulai multiplier dan animasi berkedut
-spacemanInterval = setInterval(() => {
-    currentMultiplier += 0.01;
-    document.getElementById('multiplier').textContent =
-        currentMultiplier.toFixed(2) + 'x';
-
-    // 🔍 ZOOM roket (MAX 1.5x) + tetap di tengah
-    const scale = Math.min(4, 1 + (currentMultiplier - 1) * 0.1);
-    rocket.style.transform = `translateX(-50%) scale(${scale})`;
-
-    // 🤯 Shake saat multiplier tinggi
-    if (currentMultiplier > 2.00) {
-        rocket.classList.add('shake');
-    }
-
-    // 💥 CRASH
-    if (currentMultiplier >= crashMultiplier) {
-        clearInterval(spacemanInterval);
-        rocket.classList.add('crash');
-
-        document.getElementById('startButton').disabled = false;
-        document.getElementById('cashoutButton').disabled = true;
-
-        const resultDiv = document.getElementById('result');
-        const message = document.getElementById('message');
-        message.textContent = 'Crash! Saldo -' + betAmount + ' Poin';
-        resultDiv.className = 'result lose';
-        resultDiv.classList.remove('hidden');
-
-        setTimeout(() => {
-            rocket.classList.remove('crash', 'shake', 'center');
-            rocket.style.left = '-100px';
-            rocket.style.transform = 'scale(1)'; // reset zoom
-        }, 1000);
-    }
-}, 100);
-    }, 1000); // Delay 1 detik sebelum mulai
+        spacemanInterval = setInterval(() => {
+            currentMultiplier += 0.01;
+            document.getElementById('multiplier').textContent = currentMultiplier.toFixed(2) + 'x';
+            
+            // Tambahkan animasi shake jika multiplier tinggi (ketegangan)
+            if (currentMultiplier > 2.00) {
+                rocket.classList.add('shake');
+            }
+            
+            // Tambahkan efek zoom roket saat multiplier tinggi
+            const scale = Math.min(1.5, 1 + (currentMultiplier - 1) * 0.1); // Zoom maksimal 1.5x saat multiplier tinggi
+            rocket.style.transform = `translateX(-50%) scale(${scale})`;
+            
+            if (currentMultiplier >= crashMultiplier) {
+                clearInterval(spacemanInterval);
+                rocket.classList.add('crash');
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('cashoutButton').disabled = true;
+                const resultDiv = document.getElementById('result');
+                const message = document.getElementById('message');
+                message.textContent = 'Crash! Saldo -' + betAmount + ' Poin';
+                resultDiv.className = 'result lose';
+                resultDiv.classList.remove('hidden');
+                setTimeout(() => {
+                    rocket.classList.remove('crash', 'shake', 'center');
+                    rocket.style.left = '-100px'; // Reset posisi
+                    rocket.style.transform = 'translateX(-50%) scale(1)'; // Reset zoom
+                }, 1000);
+            }
+        }, 100);
+    }, 500); // Tunggu animasi terbang selesai
 }
 
 // Fungsi cashout spaceman
@@ -360,12 +354,28 @@ function cashoutSpaceman() {
     const rocket = document.getElementById('rocket');
     rocket.classList.remove('shake', 'center');
     rocket.style.left = '-100px';
+    rocket.style.transform = 'translateX(-50%) scale(1)'; // Reset zoom
+}
+
+// Fungsi toggle musik
+function toggleMusic() {
+    const music = document.getElementById('backgroundMusic');
+    const button = document.getElementById('musicButton');
+    
+    if (music.paused) {
+        music.play();
+        button.textContent = '🎵 Pause Music';
+    } else {
+        music.pause();
+        button.textContent = '🎵 Play Music';
+    }
 }
 
 // Event listener untuk menu
 document.getElementById('slotGame').addEventListener('click', loadSlotGame);
 document.getElementById('diceGame').addEventListener('click', loadDiceGame);
 document.getElementById('spacemanGame').addEventListener('click', loadSpacemanGame);
+document.getElementById('musicButton').addEventListener('click', toggleMusic);
 
 // Load default game
 loadSlotGame();
