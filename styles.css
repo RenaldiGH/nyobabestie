@@ -30,6 +30,22 @@ body {
     transform: scale(1.05);
 }
 
+.menu #musicButton {
+    background: linear-gradient(45deg, #ff1493, #ff69b4);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: transform 0.2s;
+}
+
+.menu #musicButton:hover {
+    transform: scale(1.05);
+}
+
 .container {
     text-align: center;
     background: rgba(0, 0, 0, 0.8);
@@ -197,16 +213,16 @@ button:disabled {
 
 .rocket {
     position: absolute;
-    left: -150px; /* Mulai dari kiri luar layar */
+    left: -100px; /* Mulai dari kiri luar layar */
     bottom: 0;
-    width: 150px;
+    width: 120px; /* Diperbesar dari 60px */
     height: auto;
-    transition: left 1s ease-in-out; /* Animasi terbang cepat */
+    transition: left 0.5s ease-in-out; /* Animasi terbang cepat */
     z-index: 5;
 }
 
 .rocket img {
-    width: 150px;
+    width: 100%;
     height: auto;
     border-radius: 5px;
 }
@@ -218,7 +234,7 @@ button:disabled {
 }
 
 .shake {
-    animation: shake 1s infinite; /* Animasi berkedut */
+    animation: shake 0.5s infinite; /* Animasi berkedut */
 }
 
 @keyframes shake {
