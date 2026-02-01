@@ -293,7 +293,7 @@ function startSpaceman() {
     document.getElementById('cashoutButton').disabled = false;
     
     currentMultiplier = 1.00;
-    crashMultiplier = Math.random() * 3 + 1.01; // Crash antara 1.01x sampai 10x (lebih cepat)
+    crashMultiplier = Math.random() * 2 + 1.01; // Crash antara 1.01x sampai 10x (lebih cepat)
     
     // Animasi roket terbang dari kiri ke tengah
     const rocket = document.getElementById('rocket');
@@ -379,4 +379,5 @@ document.getElementById('musicButton').addEventListener('click', toggleMusic);
 
 // Load default game
 loadSlotGame();
+
 
