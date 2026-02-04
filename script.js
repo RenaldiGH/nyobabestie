@@ -9,11 +9,11 @@ function updateBalance() {
 
 // Fungsi deposit
 function deposit() {
-    const amount = prompt('Masukkan jumlah deposit (minimal 10, maksimal 10.000):');
+    const amount = prompt('Masukkan jumlah deposit (minimal 10, maksimal 100.000):');
     const depositAmount = parseInt(amount);
     
-    if (isNaN(depositAmount) || depositAmount < 10 || depositAmount > 10000) {
-        alert('Jumlah deposit tidak valid! Minimal 10, maksimal 10.000.');
+    if (isNaN(depositAmount) || depositAmount < 10 || depositAmount > 100000) {
+        alert('Jumlah deposit tidak valid! Minimal 10, maksimal 100.000.');
         return;
     }
     
@@ -379,5 +379,6 @@ document.getElementById('musicButton').addEventListener('click', toggleMusic);
 
 // Load default game
 loadSlotGame();
+
 
 
